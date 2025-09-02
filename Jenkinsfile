@@ -9,7 +9,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/username/Front-end_hoir.git'
+                    url: 'git@github.com:TSM-x-Telkom/Front-end_hoir.git',
+                    credentialsId: 'ssh-github-key'
             }
         }
 
@@ -27,7 +28,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm test || echo "No tests found, skipping..."'
+                sh 'npm test'
             }
         }
 
@@ -37,17 +38,12 @@ pipeline {
             }
         }
 
-        stage('Archive Build') {
-            steps {
-                archiveArtifacts artifacts: 'dist/**', fingerprint: true
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo '🚀 Deploy step – nanti diisi scp/rsync setelah SSH server siap'
-            }
-        }
+        // Stage Deploy bisa ditambahkan nanti ketika SSH server siap
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'echo "Deploy nanti setelah SSH server siap"'
+        //     }
+        // }
     }
 }
 
